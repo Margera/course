@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -20,10 +21,10 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "modules")
-public class ModuleModel implements Serializable{   
+public class ModuleModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID moduleId;
@@ -35,6 +36,9 @@ public class ModuleModel implements Serializable{
     private String description;
 
     @Column(nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyy HH:mm:ss") 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyy HH:mm:ss")
     private LocalDateTime creationDate;
+
+    @ManyToOne(optional = false) // optional - Sempre precisa associar um modulo a um curso
+    private CourseModel course;
 }

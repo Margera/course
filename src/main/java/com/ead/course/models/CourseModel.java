@@ -2,6 +2,7 @@ package com.ead.course.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -11,12 +12,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.ead.course.enums.CourseLevel;
 import com.ead.course.enums.CourseStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
@@ -24,9 +27,9 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "courses")
-public class CourseModel implements Serializable{
+public class CourseModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID courseId;
@@ -47,7 +50,7 @@ public class CourseModel implements Serializable{
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyy HH:mm:ss")
     @Column(nullable = false)
     private LocalDateTime lastUpdateDate;
-    
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CourseStatus courseStatus;
@@ -58,4 +61,8 @@ public class CourseModel implements Serializable{
 
     @Column(nullable = false)
     private UUID userInstructor;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "course")
+    private Set<ModuleModel> modules;
 }
