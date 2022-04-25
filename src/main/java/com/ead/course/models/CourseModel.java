@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.FetchType;
 
 import com.ead.course.enums.CourseLevel;
 import com.ead.course.enums.CourseStatus;
@@ -63,6 +64,7 @@ public class CourseModel implements Serializable {
     private UUID userInstructor;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT) // Define como sera montado uma consulta(Join, select, subselect etc.)
     private Set<ModuleModel> modules;
 }
