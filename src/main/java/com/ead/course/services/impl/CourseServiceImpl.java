@@ -1,6 +1,8 @@
 package com.ead.course.services.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import com.ead.course.models.CourseModel;
 import com.ead.course.models.LessonModel;
@@ -40,6 +42,21 @@ public class CourseServiceImpl implements CourseService {
 
             moduleRepository.deleteAll(moduleModelList);
         }
+    }
+
+    @Override
+    public CourseModel save(CourseModel courseModel) {
+        return courseRepository.save(courseModel);
+    }
+
+    @Override
+    public Optional<CourseModel> findByIUd(UUID courseId) {
+        return courseRepository.findById(courseId);
+    }
+
+    @Override
+    public List<CourseModel> findAll() {
+        return courseRepository.findAll();
     }
 
 }
