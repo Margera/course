@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ModuleServiceImpl implements ModuleService{
-    
+public class ModuleServiceImpl implements ModuleService {
+
     @Autowired
     ModuleRepository moduleRepository;
 
@@ -26,13 +26,13 @@ public class ModuleServiceImpl implements ModuleService{
     @Transactional
     @Override
     public void delete(ModuleModel moduleModel) {
-        List<LessonModel> lessonModelsList = lessonRepository.findAllLessonsIntoCourse(moduleModel.getModuleId()); 
+        List<LessonModel> lessonModelsList = lessonRepository.findAllLessonsIntoCourse(moduleModel.getModuleId());
 
-        if(!lessonModelsList.isEmpty()){
+        if (!lessonModelsList.isEmpty()) {
             lessonRepository.deleteAll(lessonModelsList);
         }
 
-        moduleRepository.delete(moduleModel);        
+        moduleRepository.delete(moduleModel);
     }
 
     @Override
@@ -43,5 +43,10 @@ public class ModuleServiceImpl implements ModuleService{
     @Override
     public Optional<ModuleModel> findModuleIntoCourse(UUID courseId, UUID moduleId) {
         return moduleRepository.findModuleIntoCourse(courseId, moduleId);
+    }
+
+    @Override
+    public List<ModuleModel> findAllByCourse(UUID courseId) {
+        return moduleRepository.findAllModulesIntoCourse(courseId);
     }
 }
