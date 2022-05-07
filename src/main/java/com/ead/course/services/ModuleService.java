@@ -6,6 +6,10 @@ import java.util.UUID;
 
 import com.ead.course.models.ModuleModel;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 public interface ModuleService {
 
     void delete(ModuleModel moduleModel);
@@ -17,4 +21,7 @@ public interface ModuleService {
     List<ModuleModel> findAllByCourse(UUID courseId);
 
     Optional<ModuleModel> findByIUd(UUID moduleId);
+
+    Page<ModuleModel> findAllByCourse(Specification<ModuleModel> spec, Pageable pageable);
+
 }

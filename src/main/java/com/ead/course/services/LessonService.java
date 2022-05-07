@@ -6,6 +6,10 @@ import java.util.UUID;
 
 import com.ead.course.models.LessonModel;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 public interface LessonService {
 
     LessonModel save(LessonModel lessonModel);
@@ -15,5 +19,7 @@ public interface LessonService {
     void delete(LessonModel lessonModel);
 
     List<LessonModel> findAllByModule(UUID moduleId);
+
+    Page<LessonModel> findAllByModule(Specification<LessonModel> and, Pageable pageable);
     
 }

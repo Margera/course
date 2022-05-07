@@ -2,7 +2,6 @@ package com.ead.course.controllers;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -84,7 +83,7 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<Page<CourseModel>> getAllCourses(specificationTemplate.CourseSpec spec,
                                                            @PageableDefault(page = 0, size = 10, sort = "courseId", direction = Sort.Direction.ASC)
-                                                           Pageable pageable ){
+                                                           Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.findAll(spec, pageable));
     }
 
