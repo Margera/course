@@ -2,8 +2,10 @@ package com.ead.course.controllers;
 
 import java.util.UUID;
 
+import com.ead.course.clients.CourseClient;
 import com.ead.course.dtos.UserDto;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,11 +24,14 @@ import lombok.extern.log4j.Log4j2;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class CourseUserController {
 
+    @Autowired
+    CourseClient courseClient;
+
     @GetMapping("/courses/{courseId}/users")
     public ResponseEntity<Page<UserDto>> getAllUsersByCourse(@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC)
                                                        Pageable pageable,
                                                        @PathVariable(value = "courseId") UUID courseId){
         
-        return ResponseEntity.status(HttpStatus.OK).body();        
+        return ResponseEntity.status(HttpStatus.OK).body(courseClient.getAllUsersByCourses(courseId, pageable));        
     }  
 }
