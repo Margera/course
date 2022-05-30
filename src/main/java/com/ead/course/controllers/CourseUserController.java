@@ -5,9 +5,10 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import com.ead.course.clients.CourseClient;
+import com.ead.course.clients.AuthUserClient;
 import com.ead.course.dtos.SubscriptionDto;
 import com.ead.course.dtos.UserDto;
+import com.ead.course.enums.UserStatus;
 import com.ead.course.models.CourseModel;
 import com.ead.course.models.CourseUserModel;
 import com.ead.course.services.CourseService;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -35,7 +37,7 @@ import lombok.extern.log4j.Log4j2;
 public class CourseUserController {
 
     @Autowired
-    CourseClient courseClient;
+    AuthUserClient authUserClient;
 
     @Autowired
     CourseService courseService;
@@ -48,14 +50,15 @@ public class CourseUserController {
                                                        Pageable pageable,
                                                        @PathVariable(value = "courseId") UUID courseId){
         
-        return ResponseEntity.status(HttpStatus.OK).body(courseClient.getAllUsersByCourses(courseId, pageable));        
+        return ResponseEntity.status(HttpStatus.OK).body(authUserClient.getAllUsersByCourses(courseId, pageable));        
     }  
 
     @PostMapping("/courses/{courseId}/users/subscription")
     public ResponseEntity<Object> saveSubscriptionUserinCourse(@PathVariable(value = "courseId") UUID courseId,
                                                                @RequestBody @Valid SubscriptionDto subscriptionDto){
 
-        Optional<CourseModel> courseModelOptional = courseService.findByIUd(courseId);   
+        ResponseEntity<UserDto> responseUser;                                                        
+        Optional<CourseModel> courseModelOptional = courseService.findByIUd(courseId);  
 
         if (!courseModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found.");
@@ -65,10 +68,20 @@ public class CourseUserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Course Not Found");
         }
 
-        // Verificação user
+        try {
+            responseUser = authUserClient.getOneUserById(subscriptionDto.getUserId());
 
+            if (responseUser.getBody().getUserStatus().equals(UserStatus.BLOCKED)){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Use is blocked.");
+            }
+        } catch (HttpStatusCodeException e) {
+            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Use not found."); 
+            }
+        }
+        
         CourseUserModel courseUserModel = courseUserService.save(courseModelOptional.get().convertToCourseUserModel(subscriptionDto.getUserId()));
        
-        return ResponseEntity.status(HttpStatus.CREATED).body("Subscription created successfully.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseUserModel);
     }
 }
