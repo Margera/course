@@ -45,9 +45,9 @@ public class AuthUserClient {
             result = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
 
             searchResult = result.getBody().getContent();
-            log.debug("Response Number of Elements: {} ", searchResult.size());
+            log.info("Response Number of Elements: {} ", searchResult.size());
         } catch (Exception e) {
-            log.debug("Erros request /courses {} ", e);
+            log.info("Erros request /courses {} ", e);
         }    
 
         log.info("Ending requests /users courseId {} ", courseId);
