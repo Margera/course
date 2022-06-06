@@ -59,4 +59,10 @@ public class AuthUserClient {
 
         return restTemplate.exchange(url, HttpMethod.GET, null, UserDto.class);
     }
+
+    public void postSubscriptionUserInCourse(UUID courseId, UUID userId) {
+        String url = REQUEST_URL_AUTHUSER + "/users/" + userId + "/courses/subscription";
+
+        
+    }
 }
