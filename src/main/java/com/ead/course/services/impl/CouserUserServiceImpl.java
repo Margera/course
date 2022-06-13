@@ -37,7 +37,7 @@ public class CouserUserServiceImpl implements CourseUserService {
         courseUserModel = courseUserRepository.save(courseUserModel);
 
         authUserClient.postSubscriptionUserInCourse(courseUserModel.getCourse().getCourseId(), courseUserModel.getUserId());
-        return null;
+        return courseUserModel;
     }
 
 }

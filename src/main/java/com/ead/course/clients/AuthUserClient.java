@@ -3,6 +3,7 @@ package com.ead.course.clients;
 import java.util.List;
 import java.util.UUID;
 
+import com.ead.course.dtos.CourseUserDto;
 import com.ead.course.dtos.ResponsePageDto;
 import com.ead.course.dtos.UserDto;
 import com.ead.course.services.UtilsService;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.var;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -61,8 +63,13 @@ public class AuthUserClient {
     }
 
     public void postSubscriptionUserInCourse(UUID courseId, UUID userId) {
-        String url = REQUEST_URL_AUTHUSER + "/users/" + userId + "/courses/subscription";
-
+        String url = REQUEST_URL_AUTHUSER + "/users/"+ userId + "/courses/subscription";  
         
+        var courseUserDto = new CourseUserDto();
+
+        courseUserDto.setCourseId(courseId);
+        courseUserDto.setUserId(userId);
+
+        restTemplate.postForObject(url, courseUserDto, String.class);
     }
 }

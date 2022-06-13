@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Data
 public class CourseUserDto {
-
-    private UUID courseId;
+    
+    private UUID courseId; 
     private UUID userId;
-    9:20
 }
