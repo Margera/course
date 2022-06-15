@@ -29,9 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpStatusCodeException;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class CourseUserController {
