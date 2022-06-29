@@ -52,7 +52,7 @@ public class CourseController {
 
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Object> deleteCourse(@PathVariable(value = "courseId") UUID courseId){
-        Optional<CourseModel> courseModelOptional = courseService.findByIUd(courseId);   
+        Optional<CourseModel> courseModelOptional = courseService.findById(courseId);   
 
         if (!courseModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found.");
@@ -64,7 +64,7 @@ public class CourseController {
     @PutMapping("/{courseId}")
     public ResponseEntity<Object> updateCourse(@PathVariable(value = "courseId") UUID courseId,
                                                @RequestBody @Valid CourseDto courseDto){
-        Optional<CourseModel> courseModelOptional = courseService.findByIUd(courseId);   
+        Optional<CourseModel> courseModelOptional = courseService.findById(courseId);   
 
         if (!courseModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found.");
@@ -97,7 +97,7 @@ public class CourseController {
 
     @GetMapping("/{courseId}")
     public ResponseEntity<Object> getOneCourses(@PathVariable(value = "courseId") UUID courseId){
-        Optional<CourseModel> courseModelOptional = courseService.findByIUd(courseId);   
+        Optional<CourseModel> courseModelOptional = courseService.findById(courseId);   
 
         if (!courseModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found.");

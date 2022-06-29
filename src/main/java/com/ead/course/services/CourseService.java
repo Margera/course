@@ -14,7 +14,7 @@ public interface CourseService {
 
     CourseModel save(CourseModel courseModel);
 
-    Optional<CourseModel> findByIUd(UUID courseId);
+    Optional<CourseModel> findById(UUID courseId);
 
     Page<CourseModel> findAll(Specification<CourseModel> spec, Pageable pageable);
 }
