@@ -11,9 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.client.HttpStatusCodeException;
 
-import com.ead.course.clients.AuthUserClient;
 import com.ead.course.dtos.CourseDto;
-import com.ead.course.dtos.UserDto;
 import com.ead.course.enums.*;
 
 @Component
@@ -22,9 +20,6 @@ public class CourseValidator implements Validator {
     @Autowired
     @Qualifier("defaultValidator")
     private Validator validator;
-
-    @Autowired
-    AuthUserClient authUserClient;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -42,17 +37,17 @@ public class CourseValidator implements Validator {
     }
 
     private void validateUserInstructor(UUID userInstructor, Errors errors){
-        ResponseEntity<UserDto> responseUserinstructor;
-        try {
-            responseUserinstructor = authUserClient.getOneUserById(userInstructor);      
+        // ResponseEntity<UserDto> responseUserinstructor;
+        // try {
+        //     responseUserinstructor = authUserClient.getOneUserById(userInstructor);      
             
-            if(responseUserinstructor.getBody().getUserType().equals(UserType.STUDENT)){
-                errors.rejectValue("userInstructor", "UserInstructorError","User must be INSTRUCTOR or ADMIN");   
-            }
-        } catch (HttpStatusCodeException e) {
-            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)){
-                errors.rejectValue("userInstructor", "UserInstrictorError", "Instructor not found.");
-            }
-        }
+        //     if(responseUserinstructor.getBody().getUserType().equals(UserType.STUDENT)){
+        //         errors.rejectValue("userInstructor", "UserInstructorError","User must be INSTRUCTOR or ADMIN");   
+        //     }
+        // } catch (HttpStatusCodeException e) {
+        //     if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+        //         errors.rejectValue("userInstructor", "UserInstrictorError", "Instructor not found.");
+        //     }
+        // }
     }
 }
