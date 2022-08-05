@@ -4,11 +4,9 @@ import java.util.Collection;
 import java.util.UUID;
 
 import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 
 import com.ead.course.models.CourseModel;
-import com.ead.course.models.UserModel;
 import com.ead.course.models.LessonModel;
 import com.ead.course.models.ModuleModel;
 
