@@ -80,5 +80,4 @@ public class specificationTemplate {
             return cb.and(cb.equal(course.get("userId"), userId), cb.isMember(course, usersCourses));
         };
     }
-    24:39
 }
